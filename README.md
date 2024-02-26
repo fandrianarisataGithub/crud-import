@@ -44,4 +44,5 @@ Le projet Symfony pour l'importation de données via excel est maintenant prêt 
 
 ## Remarque
 
-La mise à jour des données se fait avec une rafraichissement de la page entière parce que les colonnes à modifier ou à saisisser sont nombreux.
+La mise à jour des données se fait avec un rafraichissement de la page entière parce que les colonnes à modifier ou à saisisser sont nombreux.
+Le dump de la base de donnée est le fichier zip à dans /dd-dump/etalik.zip, avec le fichier excel de test
