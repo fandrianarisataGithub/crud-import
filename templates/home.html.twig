@@ -2,25 +2,32 @@
 {% block body %}
     <div class="container-fluid">
         <div class="row title">
-            <h1>Liste des clients</h1>
+            <h1 class="text-primary">Liste des clients</h1>
         </div>
-        <div class="row my-2 d-flex justify-content-center align-items-center">
-            <h2>Télecharger un fichier</h2>
-            <div>
+        <div class="row mx-5 my-2 d-flex justify-content-center align-items-center">
+            <h2 class="text-center text-secondary">Télecharger un fichier</h2>
+            <div class="form-container">
                 {{ form_start(form, {
                         'attr' : {
                             'id' : 'form_import_excel'
                         }
                     }) 
                 }}
-                {{ form_row(form.file) }}
-                    <input type="submit" value="Importer" class="btn btn-primary btn-sm my-2">
+                    <img src="{{ asset('images/excel.png')}}" style="width: 50px" alt="excel">
+                    {{ form_widget(form.file) }}
+
+                    <div class="form-error">
+                        {{ form_errors(form.file) }}
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm my-3">
+                        Importer
+                    </button>
                 {{ form_end(form) }}
             </div>
         </div>
-        <div class="row">
+        <div class="row mx-5">
             <div class="scrollable-datatable">
-                    <table id="example" class="table table-striped" style="width:100%">
+                    <table id="tableau-client" class="table table-striped" style="width:100%">
                         <thead>
                             <tr>
                                 <th>Compte affaire</th>
@@ -58,46 +65,11 @@
                                 <th>Intermediaire de vente VN</th>
                                 <th>Date évènement (Veh)</th>
                                 <th>Origine évènement (Veh)</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Compte affaire</td>
-                                <td>Compte évènement</td>
-                                <td>Compte dernière évènement</td>
-                                <td>N° Fiche</td>
-                                <td>Libellé civilité</td>
-                                <td>Prop actuel du véhicule</td>
-                                <td>Nom</td>
-                                <td>Prénom</td>
-                                <td>N° et nom de la voie</td>
-                                <td>Complément adresse 1</td>
-                                <td>Code postal</td>
-                                <td>Ville</td>
-                                <td>Tél domicile</td>
-                                <td>Tél portable</td>
-                                <td>Tél job</td>
-                                <td>Email</td>
-                                <td>Date de mise en circulation</td>
-                                <td>Date achat (date de livraison)</td>
-                                <td>Date dernier évènement(Veh)</td>
-                                <td>Libéllé marque(Mrq)</td>
-                                <td>Libéllé modèle (Mod)</td>
-                                <td>Version</td>
-                                <td>VIN</td>
-                                <td>Immatriculation</td>
-                                <td>Type prospect</td>
-                                <td>Kilometrage</td>
-                                <td>Libéllé énergie(Energ)</td>
-                                <td>Vendeur VN</td>
-                                <td>Vendeur VO</td>
-                                <td>Commentaire de facturation (Veh)</td>
-                                <td>Type VN VO</td>
-                                <td>N° de dossier VN VO</td>
-                                <td>Intermediaire de vente VN</td>
-                                <td>Date évènement (Veh)</td>
-                                <td>Origine évènement (Veh)</td>
-                            </tr>
+                            
                         </tbody>
                         <tfoot>
                             <tr>
@@ -136,6 +108,7 @@
                                 <th>Intermediaire de vente VN</th>
                                 <th>Date évènement (Veh)</th>
                                 <th>Origine évènement (Veh)</th>
+                                <th>Actions</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -148,44 +121,74 @@
 {% block javascripts %}
     <script>
         $(window).ready(function(){
-            new DataTable('#example', {
+            new DataTable('#tableau-client', {
                 scrollX: true,
-                autoWidth: true
-            });
-        })
-        function uploadFile() {
-            var fileInput = document.getElementById('fileInput');
-            var progressBar = document.getElementById('progressBar');
-            
-            if (fileInput.files.length > 0) {
-                var file = fileInput.files[0];
-                var formData = new FormData();
-                formData.append('file', file);
+                autoWidth: true,
+                "ajax" : {
+                    url : "/load/client",
+                    type : 'GET',
+                    "dataSrc":"",
 
-                $.ajax({
-                    url: '/client',
-                    type: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    xhr: function () {
-                        var xhr = new XMLHttpRequest();
-                        xhr.upload.onprogress = function (e) {
-                        if (e.lengthComputable) {
-                            var percentage = (e.loaded / e.total) * 100;
-                            progressBar.style.width = percentage + '%';
+                },
+                columns: [
+                    { data: 'compte_affaire' },
+                    { data: 'compte_evenement' },
+                    { data: 'compte_dernier_evenement' },
+                    { data: 'numero_fiche' },
+                    { data: 'libelle_civilite' },
+                    { data: 'prop_actuel_vehicule' },
+                    { data: 'nom' },
+                    { data: 'prenom' },
+                    { data: 'num_nom_voie' },
+                    { data: 'complement_adress' },
+                    { data: 'code_postal' },
+                    { data: 'ville' },
+                    { data: 'tel_domicile' },
+                    { data: 'tel_portable' },
+                    { data: 'tel_job' },
+                    { data: 'email' },
+                    { data: 'date_mise_en_circ' },
+                    { data: 'date_achat' },
+                    { data: 'date_derniere_evenement' },
+                    { data: 'libelle_marque' },
+                    { data: 'libelle_modele' },
+                    { data: 'version' },
+                    { data: 'vin' },
+                    { data: 'immatriculation' },
+                    { data: 'type_prospect' },
+                    { data: 'kilometrage' },
+                    { data: 'libelle_energie' },
+                    { data: 'vendeur_vn' },
+                    { data: 'vendeur_vo' },
+                    { data: 'commentaire_facturation' },
+                    { data: 'type_vn_vo' },
+                    { data: 'numero_dossier' },
+                    { data: 'intermediaire_vente' },
+                    { data: 'date_evenement' },
+                    { data: 'origine_evenement' },
+                    { render : function(row, data) {
+                            return ""
                         }
-                        };
-                        return xhr;
-                    },
-                    success: function (response) {
-                        // Handle the response here
-                        console.log(response);
                     }
-                    });
-                } else {
-                    alert('Veuillez sélectionner un fichier.');
-            }
-        }
+                ],
+                "columnDefs": [
+                    {
+                        "targets": -1,
+                        "data": null,
+                        "createdCell": function (td, cellData, rowData, row, col){
+                            $(td).html(`
+                                <a href="#" data-id="`+ cellData.client_id +`" data-nature="" class="edit_client">
+                                    Modifier
+                                </a> /
+                                <a href="#" data-id="`+ cellData.client_id +`" class="delete_client">
+                                    Supprimer
+                                </a>
+                            `)
+                        }
+                    },
+                ]
+            });
+            
+        })
     </script>
 {% endblock %}

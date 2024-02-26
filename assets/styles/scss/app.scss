@@ -1,14 +1,7 @@
-
-body {
-    background-color: lightgray;
-}
-.table.table-striped{
-    thead, tfoot{
-        tr{
-            th{
-                min-width: 180px;
-                
-            }
-        }
-    }
-}
+@import 
+    './color.scss',
+    './variable.scss',
+    './mixins.scss',
+    './base.scss',
+    './pages'
+;
