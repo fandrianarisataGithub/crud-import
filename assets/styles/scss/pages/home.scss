@@ -18,3 +18,16 @@
 .title{
     margin: 50px 0px;
 }
+
+td{
+    vertical-align: middle;
+    .list-btn-actions{
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        a.btn{
+            font-size: 12px;
+    
+        }
+    }
+}

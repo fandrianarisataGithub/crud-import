@@ -4,7 +4,7 @@
         <div class="row title">
             <h1 class="text-primary">Liste des clients</h1>
         </div>
-        <div class="row mx-5 my-2 d-flex justify-content-center align-items-center">
+        <div class="row mx-5 d-flex justify-content-center align-items-center">
             <h2 class="text-center text-secondary">Télecharger un fichier</h2>
             <div class="form-container">
                 {{ form_start(form, {
@@ -24,6 +24,9 @@
                     </button>
                 {{ form_end(form) }}
             </div>
+        </div>
+        <div class="mx-5 my-2">
+            <a href="{{path('app_add_client')}}" class="btn btn-primary">Ajouter un nouveau client</a>
         </div>
         <div class="row mx-5">
             <div class="scrollable-datatable">
@@ -115,23 +118,19 @@
             </div>
         </div>
     </div>
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#clientModal">
-        Launch demo modal
-    </button>
+
     <!-- Modal -->
     <div class="modal fade" id="clientModal" tabindex="-1" role="dialog" aria-labelledby="clientModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="clientModalLabel">Modal title</h5>
+                    <h5 class="modal-title d-flex justify-content-between" id="clientModalLabel">
+                        Voulez-vous vraiment supprimer cette ligne ?
+                    </h5>
                 </div>
-                <div class="modal-body">
-                    
-                </div>
-                <div class="modal-footer">
+                <div class="modal-footer d-flex justify-content-between">
+                    <a type="button" id="delete_client" class="btn btn-danger">Supprimer</a>
                     <button type="button" id="closeModal" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>
@@ -143,9 +142,49 @@
             $("#closeModal").click(function(){
                 $('#clientModal').modal('hide')
             })
+            
+            let clientId = null;
+            $(document).on('click', '.delete_client', function(){
+                clientId = $(this).attr('data-id')
+                $('#clientModal').modal('show')
+            })
+            $(document).on('click', '#delete_client', function(){
+                $('#clientModal').modal('hide')
+                location.href = "/delete/client/" + clientId;
+            })
             new DataTable('#tableau-client', {
                 scrollX: true,
                 autoWidth: true,
+                "language": {
+                    "sEmptyTable": "Aucune donnée disponible dans le tableau",
+                    "sInfo": "Affichage de l'élément _START_ à _END_ sur _TOTAL_ éléments",
+                    "sInfoEmpty": "Affichage de l'élément 0 à 0 sur 0 élément",
+                    "sInfoFiltered": "(filtré à partir de _MAX_ éléments au total)",
+                    "sInfoPostFix": "",
+                    "sInfoThousands": ",",
+                    "sLengthMenu": "Afficher _MENU_ éléments",
+                    "sLoadingRecords": "Chargement...",
+                    "sProcessing": "Traitement...",
+                    "sSearch": "Rechercher :",
+                    "sZeroRecords": "Aucun élément correspondant trouvé",
+                    "oPaginate": {
+                        "sFirst": "Premier",
+                        "sLast": "Dernier",
+                        "sNext": "Suivant",
+                        "sPrevious": "Précédent"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+                        "sSortDescending": ": activer pour trier la colonne par ordre décroissant"
+                    },
+                    "select": {
+                        "rows": {
+                            "_": "%d lignes sélectionnées",
+                            "0": "Aucune ligne sélectionnée",
+                            "1": "1 ligne sélectionnée"
+                        }
+                    }
+                },
                 "ajax" : {
                     url : "/load/client",
                     type : 'GET',
@@ -199,12 +238,14 @@
                         "data": null,
                         "createdCell": function (td, cellData, rowData, row, col){
                             $(td).html(`
-                                <a href="/edit/client/${cellData.client_id}"  data-id="`+ cellData.client_id +`" data-nature="" class="edit_client">
-                                    Modifier
-                                </a> /
-                                <a href="#" data-id="`+ cellData.client_id +`" class="delete_client">
-                                    Supprimer
-                                </a>
+                                <div class="list-btn-actions">
+                                    <a href="/edit/client/${cellData.client_id}"  data-id="`+ cellData.client_id +`" data-nature="" class="btn btn-primary btn-xs edit_client">
+                                        Modifier
+                                    </a> 
+                                    <a href="#" data-id="`+ cellData.client_id +`" class="delete_client btn btn-danger btn-xs">
+                                        Supprimer
+                                    </a>
+                                </div>
                             `)
                         }
                     },

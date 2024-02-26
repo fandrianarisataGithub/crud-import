@@ -120,7 +120,7 @@ class ClientType extends AbstractType
             ->add('origineEvenement', TextType::class, [
                 'required' => $this->isRequired('origineEvenement'),
             ])
-            ->add('save', SubmitType::class)
+            ->add('Sauvegarder', SubmitType::class)
         ;
     }
 
