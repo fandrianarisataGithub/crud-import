@@ -38,4 +38,8 @@ Ce projet Symfony constitue une base pour un petit CRUD avec une importation de 
     ```bash
     php -S localhost:8000 -t public/
 
-Le projet Symfony pour le web scraping est maintenant prêt à être utilisé. Accédez à http://localhost:8000 dans votre navigateur.
+Le projet Symfony pour l'importation de données via excel est maintenant prêt à être utilisé. Accédez à http://localhost:8000 dans votre navigateur.
+
+## Remarque
+
+La mise à jour des données se fait avec une rafraichissement de la page entière parce que les colonnes à modifier ou à saisisser sont nombreux.

@@ -25,8 +25,11 @@
                 {{ form_end(form) }}
             </div>
         </div>
-        <div class="mx-5 my-2">
+        <div class="mx-5 mt-2 mb-3">
             <a href="{{path('app_add_client')}}" class="btn btn-primary">Ajouter un nouveau client</a>
+            <a href="#" id="export" class="btn btn-success">
+                <span>Export Excel</span>
+            </a>
         </div>
         <div class="row mx-5">
             <div class="scrollable-datatable">
@@ -152,9 +155,15 @@
                 $('#clientModal').modal('hide')
                 location.href = "/delete/client/" + clientId;
             })
-            new DataTable('#tableau-client', {
+            
+            var table = new DataTable('#tableau-client', {
                 scrollX: true,
                 autoWidth: true,
+                layout: {
+                    topEnd: {
+                        buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+                    }
+                },
                 "language": {
                     "sEmptyTable": "Aucune donnée disponible dans le tableau",
                     "sInfo": "Affichage de l'élément _START_ à _END_ sur _TOTAL_ éléments",
@@ -251,6 +260,10 @@
                     },
                 ]
             });
+
+            $('#export').on('click',function () {
+                table.buttons('.buttons-excel').trigger();
+            })
             
         })
     </script>
