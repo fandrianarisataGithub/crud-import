@@ -31,7 +31,9 @@ Ce projet Symfony constitue une base pour un petit CRUD avec une importation de 
     php bin/console doctrine:database:create
 
 7.  Appliquez les migrations pour créer les tables dans la base de données :
+
     ```bash
+    php bin/console make:migration
     php bin/console doctrine:migrations:migrate
 
 8.  Lancer le projet: 
