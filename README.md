@@ -14,7 +14,7 @@ Ce projet Symfony constitue une base pour un petit CRUD avec une importation de 
 
 2.  Accédez au répertoire du projet :
     ```bash
-    cd web-scraper
+    cd crud-import
 
 3.  Installez les dépendances avec Composer :
     ```bash
