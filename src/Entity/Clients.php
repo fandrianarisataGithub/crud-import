@@ -119,6 +119,34 @@ class Clients
     #[ORM\Column(length: 255)]
     private ?string $origineEvenement = null;
 
+    /**
+     * Determine if a field is required.
+     *
+     * @param string $fieldName
+     * @return bool
+     */
+    public function isRequiredField(string $fieldName): bool
+    {
+        $requiredFields = [
+            'compteAffaire',
+            'compteEvenement',
+            'compteDernierEvenement',
+            'numeroFiche',
+            'nom',
+            'codePostal',
+            'ville',
+            'dateDerniereEvenement',
+            'libelleMarque',
+            'vin',
+            'typeProspect',
+            'kilometrage',
+            'dateEvenement',
+            'origineEvenement'
+        ];
+
+        return in_array($fieldName, $requiredFields, true);
+    }
+
     public function getId(): ?int
     {
         return $this->id;

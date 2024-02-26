@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Clients;
-use App\Form\ClientType;
+use App\Form\UploadClientType;
 use App\Repository\ClientsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,7 +33,7 @@ class PageController extends AbstractController
     #[Route('/', name: 'app_index')]
     public function indexPage(Request $request): Response
     {
-        $form = $this->createForm(ClientType::class);
+        $form = $this->createForm(UploadClientType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $fichier = $form->get('file')->getData();
@@ -146,9 +146,11 @@ class PageController extends AbstractController
                     $this->em->getConnection()->beginTransaction();
 
                     try {
+
                         $this->em->persist($client);
                         $this->em->flush();
                         $this->em->commit();
+                        
                     } catch (\Throwable $th) {
                         $this->em->rollback();
                         new Response("Problème lors de l'importation." . $th);

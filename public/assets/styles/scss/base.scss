@@ -1,0 +1,13 @@
+body {
+    background-color: rgb(243, 243, 247);
+}
+.table.table-striped{
+    thead, tfoot{
+        tr{
+            th{
+                min-width: 180px;
+                
+            }
+        }
+    }
+}
